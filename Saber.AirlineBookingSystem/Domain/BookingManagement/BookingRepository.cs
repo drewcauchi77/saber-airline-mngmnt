@@ -68,13 +68,9 @@ namespace Saber.AirlineBookingSystem.Domain.BookingManagement
 
         public void SaveBookingToFile(Booking booking)
         {
-            string path = Path.Combine(_directory, _fileName);
-
-            try
+            _repoUtilities.WriteFileLines(_directory, _fileName, (string toAppend) =>
             {
-                _repoUtilities.CheckForExistingFile(path, _directory);
-
-                string toAppend = $"{booking.BookingNo};{booking.CreationTime};{booking.FulfilledTime};{booking.AgentId};{booking.Price};[";
+                toAppend = $"{booking.BookingNo};{booking.CreationTime};{booking.FulfilledTime};{booking.AgentId};{booking.Price};[";
 
                 for (int i = 0; i < booking.Flights.Count; i++)
                 {
@@ -92,15 +88,11 @@ namespace Saber.AirlineBookingSystem.Domain.BookingManagement
 
                 toAppend += "];";
 
-                File.AppendAllText(path, $"{toAppend}\n");
+                File.AppendAllText(Path.Combine(_directory, _fileName), $"{toAppend}\n");
 
                 PassengerRepository pr = new();
                 pr.SavePassengersToFile(booking.Passengers);
-            }
-            catch
-            { 
-                
-            }
+            });
         }
     }
 }

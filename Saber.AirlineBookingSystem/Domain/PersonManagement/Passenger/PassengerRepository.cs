@@ -47,25 +47,15 @@ namespace Saber.AirlineBookingSystem.Domain.PersonManagement.Passenger
 
         public void SavePassengersToFile(List<Passenger> pax)
         {
-            string path = Path.Combine(_directory, _fileName);
-
-            try
+            _repoUtilities.WriteFileLines(_directory, _fileName, (string toAppend) =>
             {
-                _repoUtilities.CheckForExistingFile(path, _directory);
-
-                string toAppend = string.Empty;
-
                 pax.ForEach(p =>
                 {
                     toAppend += $"{p.PassengerId};{p.Title};{p.FirstName};{p.LastName};{p.DateOfBirth};{p.Email};{p.PhoneNumber};{p.FrequentFlyerNo}\n";
                 });
 
-                File.AppendAllText(path, $"{toAppend}");
-            }
-            catch
-            {
-
-            }
+                File.AppendAllText(Path.Combine(_directory, _fileName), $"{toAppend}");
+            });
         }
     }
 }
