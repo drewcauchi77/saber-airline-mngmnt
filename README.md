@@ -33,7 +33,7 @@ There are a few areas I would improve next on the system:
 
 ### Project Structure
 
-![Airline Management System Screenshot](Repository/drawing.png)
+![Airline Management System Screenshot](Saber.AirlineBookingSystem/Repository/drawing.png)
 
 ---
 
